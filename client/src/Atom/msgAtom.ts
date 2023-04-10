@@ -2,20 +2,20 @@ import { atom, selector } from "recoil";
 import { IMessageInterface } from "../Model/types";
 import { DefaultValue } from "recoil";
 
-export const msgAtom = atom<IMessageInterface[]>({
+export const msgListState = atom<IMessageInterface[]>({
     key: "msgAtom",
     default: [],
 });
 
-export const msgSelector = selector<IMessageInterface[]>({
+export const msgListSelector = selector<IMessageInterface[]>({
     key: "msgSelector",
     get: ({ get }) => {
-        const result = get(msgAtom);
+        const result = get(msgListState);
         return result;
     },
     set({ get, set }, newValue) {
-        const prev = get(msgAtom);
+        const prev = get(msgListState);
         const result = newValue instanceof DefaultValue ? newValue : [...newValue, ...prev];
-        set(msgAtom, result);
+        set(msgListState, result);
     },
 });

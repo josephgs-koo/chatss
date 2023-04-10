@@ -2,25 +2,14 @@
 import React, { useState } from "react";
 import { css } from "@emotion/react";
 import { useSetRecoilState } from "recoil";
-import { msgSelector } from "../../Atom/msgAtom";
+import { msgListSelector } from "../../Atom/msgAtom";
 import BasicInput from "../parts/BasicInput";
 import Button from "../parts/Button";
 import { TbSend } from "react-icons/tb";
 
-const wrap = css`
-    width: 100%;
-    display: flex;
-
-    gap: 10px;
-`;
-
-const customInputStyle = css`
-    width: 80%;
-`;
-
 const ChatSend = () => {
     const [msg, setMsg] = useState<string>("");
-    const setmsgList = useSetRecoilState(msgSelector);
+    const setmsgList = useSetRecoilState(msgListSelector);
 
     const handleSubmit = () => {
         if (msg.length > 0) {
@@ -46,3 +35,13 @@ const ChatSend = () => {
 };
 
 export default ChatSend;
+
+const wrap = css`
+    width: 100%;
+    display: flex;
+    gap: 10px;
+`;
+
+const customInputStyle = css`
+    width: 80%;
+`;

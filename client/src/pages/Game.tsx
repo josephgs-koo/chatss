@@ -15,6 +15,7 @@ const section = css({
 const board = css({
     width: "90vw",
     height: "90vw",
+    minHeight: "90vw",
     boxShadow: "3px 3px 6px #b4b2b2, -3px -3px 6px #fbfbfb, inset -3px -3px 6px #b4b2b2, inset 3px 3px 6px #fbfbfb",
     borderRadius: "1rem",
 });

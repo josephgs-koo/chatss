@@ -9,9 +9,9 @@ const wrap = css`
     display: flex;
     flex-direction: column;
     width: 90vw;
+    height: 40%;
     flex: 1 1 auto;
     padding: 10px 0;
-    max-height: 100vw;
     gap: 10px;
 `;
 
