@@ -6,14 +6,11 @@ import { msgListSelector } from "../../Atom/msgAtom";
 
 const ChatView = () => {
     const msgList = useRecoilValue(msgListSelector);
-    console.log(msgList);
+
     return (
         <div css={wrap}>
             {msgList.map((x, idx) => (
-                <div
-                    key={idx}
-                    css={x.sender === "me" ? msgWrap({ textAlign: "right" }) : msgWrap({ textAlign: "left" })}
-                >
+                <div key={idx} css={x.me ? msgWrap({ textAlign: "right" }) : msgWrap({ textAlign: "left" })}>
                     <span css={msgBlock}>{x.msg}</span>
                 </div>
             ))}

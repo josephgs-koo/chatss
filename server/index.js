@@ -1,29 +1,48 @@
-import http from "http";
-import express from "express";
-import SocketIO from "socket.io";
-
+const express = require("express");
+const http = require("http");
 const app = express();
+const server = http.createServer(app);
+const socket = require("socket.io");
+const io = socket(server, {
+    cors: {
+        origin: "*",
+    },
+});
+const cors = require("cors");
 
-const httpServer = http.createServer(app);
-const wsServer = SocketIO(httpServer);
-const port = 3001;
-const handleListen = () => console.log(`Listening on http://localhost:${port}`);
+const rooms = {};
 
-httpServer.listen(port, handleListen);
+app.use(cors());
 
-wsServer.on("connection", (socket) => {
-    socket.on("join", (roomName, done) => {
-        socket.join(roomName);
-        done();
-        socket.to(roomName).emit("welcome");
+io.on("connection", (socket) => {
+    socket.on("join room", (roomID) => {
+        console.log(socket.id);
+        if (rooms[roomID]) {
+            rooms[roomID].push(socket.id);
+        } else {
+            rooms[roomID] = [socket.id];
+        }
+        const otherUser = rooms[roomID].find((id) => id !== socket.id);
+        if (otherUser) {
+            socket.emit("other user", otherUser);
+            socket.to(otherUser).emit("user joined", socket.id);
+        }
     });
-    socket.on("offer", (offer, roomName) => {
-        socket.to(roomName).emit("offer", offer);
+
+    socket.on("offer", (payload) => {
+        console.log("offer");
+        io.to(payload.target).emit("offer", payload);
     });
-    socket.on("answer", (answer, roomName) => {
-        socket.to(roomName).emit("answer", answer);
+
+    socket.on("answer", (payload) => {
+        console.log("answer");
+        io.to(payload.target).emit("answer", payload);
     });
-    socket.on("ice", (ice, roomName) => {
-        socket.to(roomName).emit("ice", ice);
+
+    socket.on("ice-candidate", (incoming) => {
+        console.log("ice");
+        io.to(incoming.target).emit("ice-candidate", incoming.candidate);
     });
 });
+
+server.listen(8000, () => console.log("server is running on port 8000"));

@@ -13,7 +13,7 @@ export const msgListSelector = selector<IMessageInterface[]>({
         const result = get(msgListState);
         return result;
     },
-    set({ get, set }, newValue) {
+    set: ({ get, set }, newValue) => {
         const prev = get(msgListState);
         const result = newValue instanceof DefaultValue ? newValue : [...newValue, ...prev];
         set(msgListState, result);

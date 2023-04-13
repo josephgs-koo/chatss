@@ -16,10 +16,6 @@ const wrap = css`
 `;
 
 const Chat = () => {
-    // const socketRef = useRef<Socket>();
-    // const rtcRef = useRef<RTCPeerConnection>();
-
-    // useEffect(() => {}, []);
     return (
         <div css={wrap}>
             <ChatView />

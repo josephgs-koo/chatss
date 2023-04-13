@@ -1,4 +1,9 @@
 export interface IMessageInterface {
-    sender: string;
+    me: boolean;
     msg: string;
+}
+
+export interface IUserConnectionInfo {
+    roomID: string;
+    userID: string;
 }
