@@ -4,6 +4,8 @@ const http = require("http");
 const app = express();
 const server = http.createServer(app);
 const socket = require("socket.io");
+
+//* socket.io cors설정
 const io = socket(server, {
     cors: {
         origin: "*",

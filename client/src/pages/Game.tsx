@@ -27,6 +27,8 @@ const Game: React.FC = () => {
             setmsgList([{ me: false, msg: payload.msg }]);
         });
 
+        socketRef.current.on("disconnected", () => {});
+
         socketRef.current.on("room full", () => {
             alert("room is full");
         });
