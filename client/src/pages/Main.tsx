@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from "react";
 import { css } from "@emotion/react";
-import { v1 as uuid } from "uuid";
 import BasicInput from "../component/parts/BasicInput";
 import Button from "../component/parts/Button";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +9,6 @@ import { IUserConnectionInfo } from "../Model/types";
 const Main: React.FC = () => {
     const [value, setValue] = useState<IUserConnectionInfo>({
         roomID: "",
-        userID: uuid(),
     });
     const navigate = useNavigate();
 
@@ -22,7 +20,7 @@ const Main: React.FC = () => {
     };
 
     const handleClick = () => {
-        navigate(`/game/${value.roomID}`, { state: value });
+        navigate(`/game/${value.roomID}`);
     };
 
     return (

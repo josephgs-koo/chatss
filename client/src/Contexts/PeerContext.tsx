@@ -1,9 +1,9 @@
 import React, { createContext } from "react";
 
-interface IPeerContext {
-    sendChannel: React.MutableRefObject<RTCDataChannel | undefined>;
+interface ISocketContext {
+    sendData: (data: string) => void;
 }
 
-const PeerContext = createContext<IPeerContext | null>(null);
+const SocketContext = createContext<ISocketContext | null>(null);
 
-export default PeerContext;
+export default SocketContext;

@@ -5,5 +5,4 @@ export interface IMessageInterface {
 
 export interface IUserConnectionInfo {
     roomID: string;
-    userID: string;
 }

@@ -14,8 +14,10 @@ const ChatSend = () => {
     const channel = useContext(PeerContext);
 
     const handleSubmit = () => {
+        console.log(channel);
+
         if (msg.length > 0) {
-            channel?.sendChannel.current?.send(msg);
+            channel?.sendData(msg);
             setmsgList([{ me: true, msg: msg }]);
             setMsg("");
         }

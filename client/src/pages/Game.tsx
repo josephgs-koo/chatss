@@ -1,147 +1,59 @@
 /** @jsxImportSource @emotion/react */
-import React, { useRef, useEffect, useMemo } from "react";
+import React, { useRef, useEffect, useMemo, useState } from "react";
 import { css } from "@emotion/react";
 import io, { Socket } from "socket.io-client";
 import Chat from "../component/chat/Chat";
-import { useLocation } from "react-router-dom";
-import { IUserConnectionInfo } from "../Model/types";
-import PeerContext from "../Contexts/PeerContext";
+import Board from "../component/chess/Board";
+import SocketContext from "../Contexts/PeerContext";
+import { useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { msgListSelector } from "../Atom/msgAtom";
 
 const Game: React.FC = () => {
-    const roomInfo = useLocation() as { state: IUserConnectionInfo };
     const socketRef = useRef<Socket>();
-    const peerRef = useRef<RTCPeerConnection>();
-    const otherUser = useRef();
-    const sendChannel = useRef<RTCDataChannel>();
     const setmsgList = useSetRecoilState(msgListSelector);
+    const roomID = useParams();
+    const [target, setTatget] = useState<string>();
 
     useEffect(() => {
-        socketRef.current = io("http://192.168.0.9:8000", {
-            autoConnect: true,
-        });
-        socketRef.current.emit("join room", roomInfo.state.roomID);
+        socketRef.current = io(process.env.REACT_APP_WS_HOST);
+        socketRef.current.emit("join room", roomID.roomID);
 
-        socketRef.current.on("other user", (userID) => {
-            callUser(userID);
-            otherUser.current = userID;
+        socketRef.current.on("joined", (users: string) => {
+            setTatget(users);
         });
 
-        socketRef.current.on("user joined", (userID) => {
-            otherUser.current = userID;
+        socketRef.current.on("msg", (payload) => {
+            setmsgList([{ me: false, msg: payload.msg }]);
         });
 
-        socketRef.current.on("offer", handleOffer);
+        socketRef.current.on("room full", () => {
+            alert("room is full");
+        });
 
-        socketRef.current.on("answer", handleAnswer);
-
-        socketRef.current.on("ice-candidate", handleNewICECandidateMsg);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    function callUser(userID: string) {
-        peerRef.current = createPeer(userID);
-        sendChannel.current = peerRef.current.createDataChannel("sendChannel");
-        sendChannel.current.onmessage = (e) => {
-            setmsgList([{ me: false, msg: e.data }]);
-        };
-    }
-
-    function createPeer(userID?: string) {
-        const peer = new RTCPeerConnection({
-            iceServers: [
-                {
-                    urls: "stun:stun.l.google.com:19302",
-                },
-            ],
+    const handleSendData = (data: string) => {
+        socketRef.current?.emit("msg", {
+            roomID: roomID.roomID,
+            msg: data,
         });
+    };
 
-        peer.addEventListener("icecandidate", handleICECandidateEvent);
-        peer.onnegotiationneeded = () => handleNegotiationNeededEvent(userID);
-
-        return peer;
-    }
-
-    function handleNegotiationNeededEvent(userID?: string) {
-        peerRef.current
-            ?.createOffer()
-            .then((offer) => {
-                return peerRef.current?.setLocalDescription(offer);
-            })
-            .then(() => {
-                const payload = {
-                    target: userID,
-                    caller: socketRef.current?.id,
-                    sdp: peerRef.current?.localDescription,
-                };
-                socketRef.current?.emit("offer", payload);
-            })
-            .catch((e) => console.log(e));
-    }
-
-    function handleOffer(incoming: any) {
-        console.log(incoming);
-        peerRef.current = createPeer();
-        peerRef.current.ondatachannel = (e: RTCDataChannelEvent) => {
-            sendChannel.current = e.channel;
-            sendChannel.current.onmessage = (e) => {
-                setmsgList([{ me: false, msg: e.data }]);
-            };
-        };
-        const desc = new RTCSessionDescription(incoming.sdp);
-        peerRef.current
-            ?.setRemoteDescription(desc)
-            .then(() => {
-                return peerRef.current?.createAnswer();
-            })
-            .then((answer) => {
-                return peerRef.current?.setLocalDescription(answer);
-            })
-            .then(() => {
-                const payload = {
-                    target: incoming.caller,
-                    caller: socketRef.current?.id,
-                    sdp: peerRef.current?.localDescription,
-                };
-                socketRef.current?.emit("answer", payload);
-            })
-            .catch((err) => console.log(err));
-    }
-
-    function handleAnswer(message: any) {
-        console.log(message);
-        const desc = new RTCSessionDescription(message.sdp);
-        peerRef.current?.setRemoteDescription(desc).catch((e) => console.log(e));
-    }
-
-    function handleICECandidateEvent(e: any) {
-        console.log(e);
-        if (e.candidate) {
-            const payload = {
-                target: otherUser.current,
-                candidate: e.candidate,
-            };
-            socketRef.current?.emit("ice-candidate", payload);
-        }
-    }
-
-    function handleNewICECandidateMsg(incoming: any) {
-        const candidate = new RTCIceCandidate(incoming);
-        console.log(candidate);
-
-        peerRef.current?.addIceCandidate(candidate).catch((e) => console.log(e));
-    }
-
-    const value = useMemo(() => ({ sendChannel }), [sendChannel]);
+    const sendData = useMemo(() => handleSendData, []);
 
     return (
-        <PeerContext.Provider value={value}>
+        <SocketContext.Provider value={{ sendData }}>
             <section css={section}>
-                <div css={board}></div>
-                <Chat />
+                {!!target && (
+                    <>
+                        <Board />
+                        <Chat />
+                    </>
+                )}
             </section>
-        </PeerContext.Provider>
+        </SocketContext.Provider>
     );
 };
 
@@ -154,12 +66,4 @@ const section = css({
     flexDirection: "column",
     alignItems: "center",
     gap: "1rem",
-});
-
-const board = css({
-    width: "90vw",
-    height: "90vw",
-    minHeight: "90vw",
-    boxShadow: "3px 3px 6px #b4b2b2, -3px -3px 6px #fbfbfb, inset -3px -3px 6px #b4b2b2, inset 3px 3px 6px #fbfbfb",
-    borderRadius: "1rem",
 });
