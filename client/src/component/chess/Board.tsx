@@ -1,67 +1,32 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 import { css } from "@emotion/react";
+import { useRecoilValue } from "recoil";
+import { GamePopUpSelector } from "../../Atom/GameData";
+import GamePopUp from "./GamePopUp";
 
-const board = css({
-    width: "90vw",
-    height: "90vw",
-    minHeight: "90vw",
-    padding: "0.5rem",
-    boxShadow: "3px 3px 6px #b4b2b2, -3px -3px 6px #fbfbfb, inset -3px -3px 6px #b4b2b2, inset 3px 3px 6px #fbfbfb",
-    borderRadius: "1rem",
-});
+interface IBoardProp {
+    children: React.ReactNode;
+}
 
-const wrap = css`
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    border-radius: 0.7rem;
-    overflow: hidden;
-`;
-
-const squareBlack = css`
-    width: calc(100% / 8);
-    height: calc(100% / 8);
-    background-color: #686868;
-`;
-
-const squareWhite = css`
-    width: calc(100% / 8);
-    height: calc(100% / 8);
-    background-color: transparent;
-`;
-
-const Board = () => {
-    const dummy = [
-        [null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null],
-    ];
-
+const Board = ({ children }: IBoardProp) => {
+    const popup = useRecoilValue(GamePopUpSelector);
     return (
         <div css={board}>
-            <div css={wrap}>
-                {dummy.map((x, idx1) => {
-                    return x.map((x, idx2) => {
-                        const func = () => {
-                            if (idx1 % 2 === 0) {
-                                return idx2 % 2 === 0;
-                            } else {
-                                return idx2 % 2 !== 0;
-                            }
-                        };
-                        return <div key={`${idx1}${idx2}`} css={func() ? squareWhite : squareBlack}></div>;
-                    });
-                })}
-            </div>
+            {children}
+            {popup.display && <GamePopUp msg={popup.msg} btn={popup.btn} btnName={popup.btnName}></GamePopUp>}
         </div>
     );
 };
 
 export default Board;
+
+const board = css({
+    position: "relative",
+    width: "90vw",
+    height: "90vw",
+    minHeight: "90vw",
+    padding: "0.7rem",
+    boxShadow: "3px 3px 6px #b4b2b2, -3px -3px 6px #fbfbfb, inset -3px -3px 6px #b4b2b2, inset 3px 3px 6px #fbfbfb",
+    borderRadius: "1rem",
+});

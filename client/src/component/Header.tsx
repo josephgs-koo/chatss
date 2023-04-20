@@ -10,7 +10,7 @@ const header = css({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    boxShadow: "0px 3px 6px #b4b2b2, inset 0px -3px 6px #b4b2b2",
+    // boxShadow: "0px 3px 6px #b4b2b2, inset 0px -3px 6px #b4b2b2",
 });
 
 const logoStyle = css({

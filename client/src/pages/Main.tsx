@@ -42,7 +42,7 @@ const wrap = css({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    gap: "10px",
+    gap: "30px",
 });
 
 const btnCustom = css`

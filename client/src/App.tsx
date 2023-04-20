@@ -3,7 +3,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Global, css } from "@emotion/react";
 import reset from "./style/GlobalStyle";
 import Layout from "./component/Layout";
+import MenuLayout from "./component/MenuLayout";
 import Main from "./pages/Main";
+import GameList from "./pages/GameList";
 import Game from "./pages/Game";
 
 const style = css({
@@ -18,7 +20,10 @@ function App() {
                 <Global styles={reset} />
                 <Routes>
                     <Route path="/" element={<Layout />}>
-                        <Route path="" element={<Main />} />
+                        <Route path="" element={<MenuLayout />}>
+                            <Route path="" element={<Main />} />
+                            <Route path="/gamelist" element={<GameList />} />
+                        </Route>
                         <Route path="game/:roomID" element={<Game />} />
                     </Route>
                 </Routes>

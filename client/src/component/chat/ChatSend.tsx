@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState, useContext } from "react";
-import PeerContext from "../../Contexts/PeerContext";
+import { SocketContext } from "../../Contexts/PeerContext";
 import { css } from "@emotion/react";
 import { useSetRecoilState } from "recoil";
 import { msgListSelector } from "../../Atom/msgAtom";
@@ -11,13 +11,11 @@ import { TbSend } from "react-icons/tb";
 const ChatSend = () => {
     const [msg, setMsg] = useState<string>("");
     const setmsgList = useSetRecoilState(msgListSelector);
-    const channel = useContext(PeerContext);
+    const socket = useContext(SocketContext);
 
     const handleSubmit = () => {
-        console.log(channel);
-
         if (msg.length > 0) {
-            channel?.sendData(msg);
+            socket?.handleSendMsg(msg);
             setmsgList([{ me: true, msg: msg }]);
             setMsg("");
         }
