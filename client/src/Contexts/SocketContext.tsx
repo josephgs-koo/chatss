@@ -2,8 +2,11 @@ import React, { createContext, useRef, useEffect, useState, useMemo } from "reac
 import { useParams } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
 import { useSetRecoilState, useRecoilState } from "recoil";
-import { msgListSelector } from "../Atom/msgAtom";
+import { msgListState } from "../Atom/msgAtom";
 import { gameDataSelector, hostSelector } from "../Atom/GameData";
+
+import Loading from "../component/parts/Loading";
+import useGamePopUp from "../hooks/useGamePopUp";
 
 interface ISocketContext {
     socketRef: React.MutableRefObject<Socket | undefined>;
@@ -13,12 +16,13 @@ interface ISocketContext {
 
 export const SocketContext = createContext<ISocketContext | null>(null);
 
-const SocketContextProvider = ({ children }: { children: React.ReactNode }) => {
+const SocketContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const socketRef = useRef<Socket>();
     const [target, setTatget] = useState<string>();
-    const setmsgList = useSetRecoilState(msgListSelector);
+    const setmsgList = useSetRecoilState(msgListState);
     const [chess, setChess] = useRecoilState(gameDataSelector);
     const setIsHost = useSetRecoilState(hostSelector);
+    const setPopUp = useGamePopUp();
     const roomID = useParams();
 
     useEffect(() => {
@@ -31,7 +35,7 @@ const SocketContextProvider = ({ children }: { children: React.ReactNode }) => {
         });
 
         socketRef.current.on("msg", (payload) => {
-            setmsgList([{ me: false, msg: payload.msg }]);
+            setmsgList((prev) => [{ me: false, msg: payload.msg }, ...prev]);
         });
 
         socketRef.current.on("game", (payload) => {
@@ -41,14 +45,22 @@ const SocketContextProvider = ({ children }: { children: React.ReactNode }) => {
                 to: payload.targetSquare,
                 promotion: "q",
             });
+            if (gameCopy.isGameOver()) setPopUp("lose");
             setChess(gameCopy);
         });
 
-        socketRef.current.on("disconnected", () => {});
+        socketRef.current.on("leave", () => {
+            setPopUp("leave");
+        });
 
         socketRef.current.on("room full", () => {
             alert("room is full");
         });
+
+        return () => {
+            socketRef.current?.emit("leave", roomID.roomID);
+            socketRef.current?.disconnect();
+        };
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -70,7 +82,7 @@ const SocketContextProvider = ({ children }: { children: React.ReactNode }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const socket = useMemo(() => ({ socketRef, handleSendMsg, handleSendGame }), []);
 
-    return <SocketContext.Provider value={socket}>{!!target && children}</SocketContext.Provider>;
+    return <SocketContext.Provider value={socket}>{!!target ? children : <Loading />}</SocketContext.Provider>;
 };
 
 export default SocketContextProvider;

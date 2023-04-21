@@ -22,9 +22,9 @@ function App() {
                     <Route path="/" element={<Layout />}>
                         <Route path="" element={<MenuLayout />}>
                             <Route path="" element={<Main />} />
-                            <Route path="/gamelist" element={<GameList />} />
+                            <Route path="gamelist" element={<GameList />} />
+                            <Route path="game/:roomID" element={<Game />} />
                         </Route>
-                        <Route path="game/:roomID" element={<Game />} />
                     </Route>
                 </Routes>
             </BrowserRouter>

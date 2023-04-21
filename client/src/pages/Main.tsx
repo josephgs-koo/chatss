@@ -27,7 +27,7 @@ const Main: React.FC = () => {
         <div css={wrap}>
             <BasicInput value={value.roomID} onChange={handleValueChange} title="roomID" placeholder="Room ID" />
             <Button onClick={handleClick} custom={btnCustom}>
-                Hosting
+                Make Game
             </Button>
         </div>
     );
@@ -35,18 +35,24 @@ const Main: React.FC = () => {
 
 export default Main;
 
-const wrap = css({
-    width: "100%",
-    height: "100%",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: "30px",
-});
+const wrap = css`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+
+    @media screen and (min-width: 900px) {
+        width: 70%;
+    }
+`;
 
 const btnCustom = css`
     width: 100%;
     font-size: 1.2rem;
-    padding: 0.5rem;
+    padding: 0.8rem 0.5rem;
+    color: #424242;
+    font-weight: 800;
 `;

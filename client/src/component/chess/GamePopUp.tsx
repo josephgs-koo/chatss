@@ -1,19 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 import { css } from "@emotion/react";
-import Button from "../parts/Button";
 
-type Props = {
+interface Props {
     msg: string;
-    btnName?: string;
-    btn?: () => void;
-};
+}
 
-const GamePopUp: React.FC<Props> = ({ msg, btnName, btn }) => {
+const GamePopUp: React.FC<Props> = ({ msg }) => {
     return (
         <div css={popupstyle}>
             <span>{msg}</span>
-            {btn && <Button onClick={btn}>{btnName}</Button>}
         </div>
     );
 };

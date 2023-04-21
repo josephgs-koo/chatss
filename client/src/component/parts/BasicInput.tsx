@@ -8,9 +8,10 @@ interface IInputProp {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     placeholder: string;
     custom?: SerializedStyles;
+    onKeyUp?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
-const BasicInput: React.FC<IInputProp> = ({ title, placeholder, custom, value, onChange }) => {
+const BasicInput: React.FC<IInputProp> = ({ title, placeholder, custom, value, onChange, onKeyUp }) => {
     return (
         <div css={[inputWrap, custom]}>
             <input
@@ -20,6 +21,7 @@ const BasicInput: React.FC<IInputProp> = ({ title, placeholder, custom, value, o
                 placeholder={placeholder}
                 id={title}
                 onChange={onChange}
+                onKeyUp={onKeyUp}
             />
         </div>
     );

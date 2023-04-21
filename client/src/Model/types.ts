@@ -10,8 +10,6 @@ export interface IUserConnectionInfo {
 export interface IGamePopUp {
     display: boolean;
     msg: string;
-    btnName?: string;
-    btn?: () => void;
 }
 
 export interface IGameData {

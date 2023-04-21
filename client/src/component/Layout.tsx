@@ -16,8 +16,15 @@ const Layout: React.FC = () => {
 
 export default Layout;
 
-const content = css({
-    height: "calc(100% - 3.5rem)",
-    padding: "1rem",
-    paddingTop: "0.5rem",
-});
+const content = css`
+    height: calc(100% - 3.5rem);
+    width: 100%;
+    padding: 1rem;
+    padding-top: 0.5rem;
+
+    @media screen and (min-width: 800px) {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+`;

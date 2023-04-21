@@ -11,8 +11,6 @@ export const gameState = atom<IGameData>({
         popUp: {
             display: false,
             msg: "",
-            btnName: "",
-            btn: () => {},
         },
     },
 });

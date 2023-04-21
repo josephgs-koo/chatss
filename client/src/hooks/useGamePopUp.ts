@@ -1,15 +1,16 @@
-import { useResetRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { GamePopUpSelector } from "../Atom/GameData";
 import { IGamePopUp } from "../Model/types";
-import { useNavigate } from "react-router-dom";
 
 const useGamePopUp = () => {
     const setState = useSetRecoilState(GamePopUpSelector);
-    const resetPopUp = useResetRecoilState(GamePopUpSelector);
-    const navigate = useNavigate();
 
-    type typeKey = "turn" | "win" | "lose";
+    type typeKey = "default" | "turn" | "win" | "lose" | "leave";
     const popUpType: { [key: string]: () => IGamePopUp } = {
+        default: () => ({
+            display: false,
+            msg: "",
+        }),
         turn: () => ({
             msg: "Not Your Turn",
             display: true,
@@ -17,20 +18,14 @@ const useGamePopUp = () => {
         win: () => ({
             msg: "You Win",
             display: true,
-            btnName: "Back to Lobby",
-            btn: () => {
-                resetPopUp();
-                navigate("/");
-            },
         }),
         lose: () => ({
             msg: "You Lose",
             display: true,
-            btnName: "Back to Lobby",
-            btn: () => {
-                resetPopUp();
-                navigate("/");
-            },
+        }),
+        leave: () => ({
+            msg: "Player Leave The Game",
+            display: true,
         }),
     };
 

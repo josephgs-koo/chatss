@@ -22,7 +22,7 @@ const style = css`
     min-width: max-content;
     padding: 1rem 1.5rem;
     background-color: #e8e8e8;
-    color: #161616;
+    color: #424242;
     border: none;
     border-radius: 9999px;
     box-shadow: 3px 3px 6px #b4b2b2, -3px -3px 6px #fbfbfb, inset -3px -3px 6px #b4b2b2, inset 3px 3px 6px #fbfbfb;

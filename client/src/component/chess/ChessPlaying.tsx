@@ -3,21 +3,19 @@ import React, { useContext, useEffect } from "react";
 import { Chessboard } from "react-chessboard";
 import { css } from "@emotion/react";
 import Board from "./Board";
-import { SocketContext } from "../../Contexts/PeerContext";
-import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
-import { gameDataSelector, hostSelector, GamePopUpSelector } from "../../Atom/GameData";
+import { SocketContext } from "../../Contexts/SocketContext";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { gameDataSelector, hostSelector } from "../../Atom/GameData";
 import useGamePopUp from "../../hooks/useGamePopUp";
 
 const ChessPlaying: React.FC = () => {
     const [chess, setChess] = useRecoilState(gameDataSelector);
     const host = useRecoilValue(hostSelector);
     const setPopUp = useGamePopUp();
-    const popUpOff = useResetRecoilState(GamePopUpSelector);
     const socket = useContext(SocketContext);
 
-    useEffect(() => {
-        console.log(chess.turn());
-    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => () => resetChess(), []);
 
     function onDrop(sourceSquare: any, targetSquare: any) {
         if (host === (chess.turn() === "w")) {
@@ -27,6 +25,7 @@ const ChessPlaying: React.FC = () => {
                 to: targetSquare,
                 promotion: "q",
             });
+            if (gameCopy.isGameOver()) setPopUp("win");
             setChess(gameCopy);
 
             if (move === null) return false;
@@ -36,10 +35,16 @@ const ChessPlaying: React.FC = () => {
             return true;
         } else {
             setPopUp("turn");
-            setTimeout(popUpOff, 1000);
+            setTimeout(() => setPopUp("default"), 1000);
             return false;
         }
     }
+
+    const resetChess = () => {
+        const gameCopy = { ...chess };
+        gameCopy.reset();
+        setChess(gameCopy);
+    };
 
     return (
         <Board>

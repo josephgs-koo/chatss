@@ -2,10 +2,10 @@
 import React from "react";
 import { css } from "@emotion/react";
 import { useRecoilValue } from "recoil";
-import { msgListSelector } from "../../Atom/msgAtom";
+import { msgListState } from "../../Atom/msgAtom";
 
-const ChatView = () => {
-    const msgList = useRecoilValue(msgListSelector);
+const ChatView: React.FC = () => {
+    const msgList = useRecoilValue(msgListState);
 
     return (
         <div css={wrap}>
@@ -22,16 +22,13 @@ export default ChatView;
 
 const wrap = css`
     display: flex;
-    /* flex-direction: column; */
-    width: 90vw;
+    width: 100%;
     height: 90%;
     padding: 10px;
-    /* display: flex; */
     flex-direction: column-reverse;
     gap: 10px;
     overflow-y: scroll;
     border-radius: 1rem;
-    /* box-shadow: -3px -3px 6px #b4b2b2, 3px 3px 6px #fbfbfb, inset 3px 3px 6px #b4b2b2, inset -3px -3px 6px #fbfbfb; */
 `;
 
 type MsgWrapType = {
