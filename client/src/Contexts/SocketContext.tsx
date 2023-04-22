@@ -80,7 +80,7 @@ const SocketContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const socket = useMemo(() => ({ socketRef, handleSendMsg, handleSendGame }), []);
+    const socket = useMemo(() => ({ socketRef, handleSendMsg, handleSendGame }), [socketRef]);
 
     return <SocketContext.Provider value={socket}>{!!target ? children : <Loading />}</SocketContext.Provider>;
 };

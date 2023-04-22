@@ -1,5 +1,5 @@
 import { DefaultValue, atom, selector } from "recoil";
-import { IGameData } from "../Model/types";
+import { IGameData } from "../esset/Model/types";
 const Chess = require("chess.js");
 
 export const gameState = atom<IGameData>({
