@@ -25,7 +25,7 @@ const ChessPlaying: React.FC = () => {
                 to: targetSquare,
                 promotion: "q",
             });
-            if (gameCopy.isGameOver()) setPopUp("win");
+            if (gameCopy.game_over()) setPopUp("win");
             setChess(gameCopy);
 
             if (move === null) return false;

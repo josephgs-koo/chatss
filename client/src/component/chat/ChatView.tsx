@@ -28,6 +28,14 @@ const wrap = css`
     flex-direction: column-reverse;
     gap: 10px;
     overflow-y: scroll;
+    scrollbar-track-color: #e8e8e8;
+    scrollbar-color: #e8e8e8;
+    ::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+    ::-webkit-scrollbar {
+        background-color: transparent;
+    }
     border-radius: 1rem;
 `;
 

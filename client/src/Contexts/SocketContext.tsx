@@ -45,7 +45,7 @@ const SocketContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
                 to: payload.targetSquare,
                 promotion: "q",
             });
-            if (gameCopy.isGameOver()) setPopUp("lose");
+            if (gameCopy.game_over()) setPopUp("lose");
             setChess(gameCopy);
         });
 

@@ -51,9 +51,9 @@ const wrap = css`
 
     @media screen and (min-width: 900px) {
         width: 900px;
-        height: 70%;
+        height: 90%;
         max-height: 600px;
-
+        min-height: fit-content;
         box-shadow: 3px 3px 6px #b4b2b2, -3px -3px 6px #fbfbfb, inset -3px -3px 6px #b4b2b2, inset 3px 3px 6px #fbfbfb;
         padding: 1rem;
         border-radius: 1rem;
