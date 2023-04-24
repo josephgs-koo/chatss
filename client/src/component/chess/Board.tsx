@@ -2,7 +2,7 @@
 import React from "react";
 import { css } from "@emotion/react";
 import { useRecoilValue } from "recoil";
-import { GamePopUpSelector } from "../../Atom/GameData";
+import { GameStateFamily } from "../../Atom/GameData";
 import GamePopUp from "./GamePopUp";
 
 interface IBoardProp {
@@ -10,7 +10,7 @@ interface IBoardProp {
 }
 
 const Board: React.FC<IBoardProp> = ({ children }) => {
-    const popup = useRecoilValue(GamePopUpSelector);
+    const popup = useRecoilValue(GameStateFamily("popUp"));
     return (
         <div css={board}>
             {children}

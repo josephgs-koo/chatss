@@ -1,9 +1,9 @@
 import { useSetRecoilState } from "recoil";
-import { GamePopUpSelector } from "../Atom/GameData";
+import { GameStateFamily } from "../Atom/GameData";
 import { IGamePopUp } from "../esset/Model/types";
 
 const useGamePopUp = () => {
-    const setState = useSetRecoilState(GamePopUpSelector);
+    const setState = useSetRecoilState(GameStateFamily("popUp"));
 
     type typeKey = "default" | "turn" | "win" | "lose" | "leave";
     const popUpType: { [key: string]: () => IGamePopUp } = {
