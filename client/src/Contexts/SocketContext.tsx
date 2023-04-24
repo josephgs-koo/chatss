@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
 import { useSetRecoilState, useRecoilState } from "recoil";
 import { msgListState } from "../Atom/msgAtom";
-import { gameDataSelector, hostSelector } from "../Atom/GameData";
+import { GameStateFamily } from "../Atom/GameData";
 
 import Loading from "../component/parts/Loading";
 import useGamePopUp from "../hooks/useGamePopUp";
@@ -20,8 +20,8 @@ const SocketContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     const socketRef = useRef<Socket>();
     const [target, setTatget] = useState<string>();
     const setmsgList = useSetRecoilState(msgListState);
-    const [chess, setChess] = useRecoilState(gameDataSelector);
-    const setIsHost = useSetRecoilState(hostSelector);
+    const [chess, setChess] = useRecoilState(GameStateFamily("gameData"));
+    const setIsHost = useSetRecoilState(GameStateFamily("host"));
     const setPopUp = useGamePopUp();
     const roomID = useParams();
 

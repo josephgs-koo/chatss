@@ -1,4 +1,4 @@
-import { DefaultValue, atom, selector } from "recoil";
+import { atom, selectorFamily } from "recoil";
 import { IGameData } from "../esset/Model/types";
 const Chess = require("chess.js");
 
@@ -15,34 +15,19 @@ export const gameState = atom<IGameData>({
     },
 });
 
-export const gameDataSelector = selector({
-    key: "GameDataSelector",
-    get: ({ get }) => {
-        return get(gameState).gameData;
-    },
-    set: ({ get, set }, gameData) => {
-        set(gameState, { ...get(gameState), gameData });
-    },
-});
+type param = "isOver" | "gameData" | "host" | "popUp";
 
-export const hostSelector = selector({
-    key: "isHost",
-    get: ({ get }) => {
-        return get(gameState).host;
-    },
-    set: ({ get, set }, host) => {
-        const result = host instanceof DefaultValue ? host : { ...get(gameState), host };
-        set(gameState, result);
-    },
-});
-
-export const GamePopUpSelector = selector({
-    key: "gamePopUp",
-    get: ({ get }) => {
-        return get(gameState).popUp;
-    },
-    set: ({ get, set }, popUp) => {
-        const result = popUp instanceof DefaultValue ? popUp : { ...get(gameState), popUp };
-        set(gameState, result);
-    },
+export const GameStateFamily = selectorFamily<any, param>({
+    key: "gameStateFamily",
+    get:
+        (param) =>
+        ({ get }) => {
+            const state = get(gameState);
+            return state[param];
+        },
+    set:
+        (param) =>
+        ({ get, set }, data) => {
+            set(gameState, { ...get(gameState), [param]: data });
+        },
 });

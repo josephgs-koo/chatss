@@ -5,12 +5,12 @@ import { css } from "@emotion/react";
 import Board from "./Board";
 import { SocketContext } from "../../Contexts/SocketContext";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { gameDataSelector, hostSelector } from "../../Atom/GameData";
+import { GameStateFamily } from "../../Atom/GameData";
 import useGamePopUp from "../../hooks/useGamePopUp";
 
 const ChessPlaying: React.FC = () => {
-    const [chess, setChess] = useRecoilState(gameDataSelector);
-    const host = useRecoilValue(hostSelector);
+    const [chess, setChess] = useRecoilState(GameStateFamily("gameData"));
+    const host = useRecoilValue(GameStateFamily("host"));
     const setPopUp = useGamePopUp();
     const socket = useContext(SocketContext);
 

@@ -1,4 +1,4 @@
-module.exports.socketCtrl = (socket, users) => {
+const socketCtrl = (socket, users) => {
     socket.on("join room", (roomID) => {
         if (users[roomID]) {
             if (users[roomID].length === 2) {
@@ -37,3 +37,5 @@ module.exports.socketCtrl = (socket, users) => {
         socket.leave(roomID);
     });
 };
+
+export default socketCtrl;

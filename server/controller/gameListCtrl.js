@@ -1,4 +1,4 @@
-module.exports.getGameList = (req, res, users) => {
+export const getGameList = (req, res, users) => {
     const keys = Object.keys(users);
     const response = keys.map((x) => ({
         roomID: x,
