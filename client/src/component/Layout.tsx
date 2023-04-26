@@ -22,7 +22,7 @@ const content = css`
     padding: 1rem;
     padding-top: 0.5rem;
 
-    @media screen and (min-width: 800px) {
+    @media screen and (min-width: 932px) {
         display: flex;
         justify-content: center;
         align-items: center;

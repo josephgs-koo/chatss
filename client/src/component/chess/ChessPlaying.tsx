@@ -6,7 +6,7 @@ import Board from "./Board";
 import { SocketContext } from "../../Contexts/SocketContext";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { GameStateFamily } from "../../Atom/GameData";
-import useGamePopUp from "../../hooks/useGamePopUp";
+import useGamePopUp from "../../Util/hooks/useGamePopUp";
 
 const ChessPlaying: React.FC = () => {
     const [chess, setChess] = useRecoilState(GameStateFamily("gameData"));
@@ -30,7 +30,7 @@ const ChessPlaying: React.FC = () => {
 
             if (move === null) return false;
 
-            socket?.handleSendGame({ sourceSquare, targetSquare });
+            socket?.handleSendMsg("game", { sourceSquare, targetSquare });
 
             return true;
         } else {

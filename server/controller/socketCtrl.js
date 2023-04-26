@@ -5,7 +5,6 @@ const socketCtrl = (socket, users) => {
                 socket.emit("room full");
                 return;
             }
-
             users[roomID].push(socket.id);
         } else {
             users[roomID] = [socket.id];
@@ -13,28 +12,33 @@ const socketCtrl = (socket, users) => {
         socket.join(roomID);
 
         const otherUser = users[roomID].filter((id) => id !== socket.id);
-
-        if (users[roomID].length > 0) {
-            socket.emit("joined", { target: otherUser[0], host: false });
-            socket.to(otherUser).emit("joined", { target: socket.id, host: true });
+        if (users[roomID].length === 2) {
+            socket.emit("joined", false);
+            socket.broadcast.to(roomID).emit("other joined", true);
         }
     });
 
-    socket.on("msg", (payload) => {
-        socket.broadcast.to(payload.roomID).emit("msg", { msg: payload.msg });
+    socket.on("offer", (payload) => {
+        socket.broadcast.to(payload.roomID).emit("offer", payload.offer);
     });
 
-    socket.on("game", (payload) => {
-        socket.broadcast.to(payload.roomID).emit("game", payload.chess);
+    socket.on("answer", (payload) => {
+        socket.broadcast.to(payload.roomID).emit("answer", payload.answer);
+    });
+
+    socket.on("ice", (payload) => {
+        socket.broadcast.to(payload.roomID).emit("ice", payload.candidate);
     });
 
     socket.on("leave", (roomID) => {
-        socket.broadcast.to(roomID).emit("leave");
-
         if (users[roomID]) {
             delete users[roomID];
         }
         socket.leave(roomID);
+    });
+
+    socket.on("disconnect", () => {
+        console.log(`${socket.id} disconnected`);
     });
 };
 

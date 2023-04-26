@@ -29,12 +29,18 @@ const wrap = css`
     gap: 10px;
     overflow-y: scroll;
     scrollbar-track-color: #e8e8e8;
-    scrollbar-color: #e8e8e8;
+    scrollbar-color: #8b8b8b transparent;
+    scrollbar-width: thin;
     ::-webkit-scrollbar-track {
         background-color: transparent;
     }
+    ::-webkit-scrollbar-thumb {
+        background-color: #8b8b8b;
+        border-radius: 1000px;
+    }
     ::-webkit-scrollbar {
         background-color: transparent;
+        width: 5px;
     }
     border-radius: 1rem;
 `;

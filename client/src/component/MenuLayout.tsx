@@ -2,7 +2,7 @@
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { css } from "@emotion/react";
 import Button from "./parts/Button";
-import useGamePopUp from "../hooks/useGamePopUp";
+import useGamePopUp from "../Util/hooks/useGamePopUp";
 
 const MenuLayout: React.FC = () => {
     const setGamePopUp = useGamePopUp();
@@ -49,7 +49,7 @@ const wrap = css`
     align-items: center;
     justify-content: space-between;
 
-    @media screen and (min-width: 900px) {
+    @media screen and (min-width: 932px) {
         width: 900px;
         height: 90%;
         max-height: 600px;
@@ -76,7 +76,7 @@ const btnStyle = css`
 
 const leaveBtnStyle = css`
     ${btnStyle};
-    @media screen and (max-width: 900px) {
+    @media screen and (max-width: 932px) {
         width: 90vw;
     }
 `;

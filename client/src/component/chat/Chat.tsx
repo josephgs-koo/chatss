@@ -31,7 +31,7 @@ const wrap = css`
     flex: 1 1 auto;
     padding: 10px 0;
     gap: 10px;
-    @media screen and (min-width: 900px) {
+    @media screen and (min-width: 932px) {
         height: 470px;
     }
 `;

@@ -15,7 +15,7 @@ const ChatSend: React.FC = () => {
 
     const handleSubmit = () => {
         if (msg.length > 0) {
-            socket?.handleSendMsg(msg);
+            socket?.handleSendMsg("msg", msg);
             setmsgList((prev) => [{ me: true, msg: msg }, ...prev]);
             setMsg("");
         }

@@ -27,7 +27,7 @@ const section = css`
     align-items: center;
     gap: 1rem;
 
-    @media screen and (min-width: 900px) {
+    @media screen and (min-width: 932px) {
         height: 100%;
     }
 `;
