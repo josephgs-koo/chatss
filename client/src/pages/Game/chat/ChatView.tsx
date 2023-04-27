@@ -2,7 +2,7 @@
 import React from "react";
 import { css } from "@emotion/react";
 import { useRecoilValue } from "recoil";
-import { msgListState } from "../../Atom/msgAtom";
+import { msgListState } from "../../../store/msgAtom";
 
 const ChatView: React.FC = () => {
     const msgList = useRecoilValue(msgListState);

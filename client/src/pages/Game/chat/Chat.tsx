@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 import ChatSend from "./ChatSend";
 import ChatView from "./ChatView";
 import { useResetRecoilState } from "recoil";
-import { msgListState } from "../../Atom/msgAtom";
+import { msgListState } from "../../../store/msgAtom";
 import { useEffect } from "react";
 
 const Chat: React.FC = () => {
@@ -27,7 +27,7 @@ const wrap = css`
     flex-direction: column;
     width: 100%;
     max-width: 420px;
-    height: 40%;
+    height: 35%;
     flex: 1 1 auto;
     padding: 10px 0;
     gap: 10px;

@@ -3,13 +3,14 @@ import React, { useContext, useEffect } from "react";
 import { Chessboard } from "react-chessboard";
 import { css } from "@emotion/react";
 import Board from "./Board";
-import { SocketContext } from "../../Contexts/SocketContext";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { GameStateFamily } from "../../Atom/GameData";
-import useGamePopUp from "../../Util/hooks/useGamePopUp";
+import { SocketContext } from "../Contexts/SocketContext";
+import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
+import { GameStateFamily, gameState } from "../../../store/GameData";
+import useGamePopUp from "../../../Util/hooks/useGamePopUp";
 
 const ChessPlaying: React.FC = () => {
     const [chess, setChess] = useRecoilState(GameStateFamily("gameData"));
+    const reset = useResetRecoilState(gameState);
     const host = useRecoilValue(GameStateFamily("host"));
     const setPopUp = useGamePopUp();
     const socket = useContext(SocketContext);
@@ -41,6 +42,7 @@ const ChessPlaying: React.FC = () => {
     }
 
     const resetChess = () => {
+        reset();
         const gameCopy = { ...chess };
         gameCopy.reset();
         setChess(gameCopy);

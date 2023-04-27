@@ -2,7 +2,7 @@
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { css } from "@emotion/react";
 import Button from "./parts/Button";
-import useGamePopUp from "../Util/hooks/useGamePopUp";
+import useGamePopUp from "../../Util/hooks/useGamePopUp";
 
 const MenuLayout: React.FC = () => {
     const setGamePopUp = useGamePopUp();

@@ -2,7 +2,7 @@
 import React from "react";
 import { css } from "@emotion/react";
 import { useRecoilValue } from "recoil";
-import { GameStateFamily } from "../../Atom/GameData";
+import { GameStateFamily } from "../../../store/GameData";
 import GamePopUp from "./GamePopUp";
 
 interface IBoardProp {

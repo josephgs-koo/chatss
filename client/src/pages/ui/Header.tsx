@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import logo from "../esset/logo.svg";
+import logo from "../../esset/logo.svg";
 
 const Header: React.FC = () => {
     return (

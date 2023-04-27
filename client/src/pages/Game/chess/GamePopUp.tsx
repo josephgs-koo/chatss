@@ -31,6 +31,7 @@ const popupstyle = css`
     font-weight: 700;
 
     > span {
+        text-align: center;
         font-size: 2rem;
         color: red;
     }

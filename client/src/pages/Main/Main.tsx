@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from "react";
 import { css } from "@emotion/react";
-import BasicInput from "../component/parts/BasicInput";
-import Button from "../component/parts/Button";
+import BasicInput from "../ui/parts/BasicInput";
+import Button from "../ui/parts/Button";
 import { useNavigate } from "react-router-dom";
-import { IUserConnectionInfo } from "../esset/Model/types";
+import { IUserConnectionInfo } from "../../Util/Model/types";
 
 const Main: React.FC = () => {
     const [value, setValue] = useState<IUserConnectionInfo>({

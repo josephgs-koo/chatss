@@ -2,14 +2,14 @@ import React, { createContext, useRef, useEffect, useState, useMemo } from "reac
 import { useNavigate, useParams } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
 import { useSetRecoilState, useRecoilState } from "recoil";
-import { msgListState } from "../Atom/msgAtom";
-import { GameStateFamily } from "../Atom/GameData";
+import { msgListState } from "../../../store/msgAtom";
+import { GameStateFamily } from "../../../store/GameData";
 
-import Loading from "../component/parts/Loading";
-import useGamePopUp from "../Util/hooks/useGamePopUp";
+import Loading from "../../ui/parts/Loading";
+import useGamePopUp from "../../../Util/hooks/useGamePopUp";
 
 interface ISocketContext {
-    socketRef: React.MutableRefObject<Socket | undefined>;
+    socket: Socket | undefined;
     handleSendMsg: (type: "msg" | "game", data: any) => void;
 }
 
@@ -17,8 +17,8 @@ export const SocketContext = createContext<ISocketContext | null>(null);
 
 const SocketContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const socketRef = useRef<Socket>();
-    const peerRef = useRef<RTCPeerConnection | null>();
-    const dataChannel = useRef<RTCDataChannel | null>();
+    const peerRef = useRef<RTCPeerConnection>();
+    const dataChannel = useRef<RTCDataChannel>();
     const [isConnect, setIsConnect] = useState<boolean>(false);
     const [chess, setChess] = useRecoilState(GameStateFamily("gameData"));
     const setmsgList = useSetRecoilState(msgListState);
@@ -67,16 +67,16 @@ const SocketContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     };
 
     const msgHandler = (message: string) => {
-        const data = JSON.parse(message);
-        switch (data.type) {
+        const { type, data } = JSON.parse(message);
+        switch (type) {
             case "msg":
-                setmsgList((prev) => [{ me: false, msg: data.data }, ...prev]);
+                setmsgList((prev) => [{ me: false, msg: data }, ...prev]);
                 break;
             case "game":
                 const gameCopy = { ...chess };
                 gameCopy.move({
-                    from: data.data.sourceSquare,
-                    to: data.data.targetSquare,
+                    from: data.sourceSquare,
+                    to: data.targetSquare,
                     promotion: "q",
                 });
                 if (gameCopy.game_over()) setPopUp("lose");
@@ -160,7 +160,7 @@ const SocketContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const socket = useMemo(() => ({ socketRef, handleSendMsg }), [socketRef]);
+    const socket = useMemo(() => ({ socket: socketRef.current, handleSendMsg }), [socketRef]);
 
     return <SocketContext.Provider value={socket}>{isConnect ? children : <Loading />}</SocketContext.Provider>;
 };

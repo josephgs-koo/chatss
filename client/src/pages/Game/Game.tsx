@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 import { css } from "@emotion/react";
-import Chat from "../component/chat/Chat";
-import ChessPlaying from "../component/chess/ChessPlaying";
-import SocketContextProvider from "../Contexts/SocketContext";
+import Chat from "./chat/Chat";
+import ChessPlaying from "./chess/ChessPlaying";
+import SocketContextProvider from "./Contexts/SocketContext";
 
 const Game: React.FC = () => {
     return (
