@@ -46,10 +46,13 @@ const inputWrap = css({
     },
 });
 
-const inputStyle = css({
-    flex: "1 1 auto",
-    border: "none",
-    outline: "none",
-    backgroundColor: "transparent",
-    fontSize: "1rem",
-});
+const inputStyle = css`
+    flex: 1 1 auto;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-size: 1rem;
+    @supports (-webkit-overflow-scrolling: touch) {
+        font-size: 16px;
+    }
+`;

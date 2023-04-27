@@ -22,12 +22,13 @@ const section = css`
     width: 100%;
     height: 100%;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 1rem;
 
     @media screen and (min-width: 932px) {
-        height: 100%;
+        height: 90%;
+        flex-direction: row;
     }
 `;

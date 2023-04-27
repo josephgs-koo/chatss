@@ -28,21 +28,19 @@ const wrap = css`
     flex-direction: column-reverse;
     gap: 10px;
     overflow-y: scroll;
-    scrollbar-track-color: #e8e8e8;
+    box-shadow: -3px -3px 6px #b4b2b2, 3px 3px 6px #fbfbfb, inset 3px 3px 6px #b4b2b2, inset -3px -3px 6px #fbfbfb;
+    border-radius: 1rem;
     scrollbar-color: #8b8b8b transparent;
-    scrollbar-width: thin;
+    scrollbar-width: none;
     ::-webkit-scrollbar-track {
         background-color: transparent;
+        width: 0px;
     }
-    ::-webkit-scrollbar-thumb {
-        background-color: #8b8b8b;
-        border-radius: 1000px;
-    }
+
     ::-webkit-scrollbar {
         background-color: transparent;
-        width: 5px;
+        width: 0px;
     }
-    border-radius: 1rem;
 `;
 
 type MsgWrapType = {
@@ -57,7 +55,7 @@ const msgBlock = css`
     display: inline-block;
     width: fit-content;
     max-width: 70%;
-    border-radius: 1rem;
+    border-radius: 0.7rem;
     padding: 0.5rem 1rem;
     box-shadow: 3px 3px 6px #b4b2b2, -3px -3px 6px #fbfbfb, inset -3px -3px 6px #b4b2b2, inset 3px 3px 6px #fbfbfb;
     text-align: left;
