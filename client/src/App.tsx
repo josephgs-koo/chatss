@@ -2,11 +2,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Global, css } from "@emotion/react";
 import reset from "./style/GlobalStyle";
-import Layout from "./component/Layout";
-import MenuLayout from "./component/MenuLayout";
-import Main from "./pages/Main";
-import GameList from "./pages/GameList";
-import Game from "./pages/Game";
+import Layout from "./pages/ui/Layout";
+import MenuLayout from "./pages/ui/MenuLayout";
+import Main from "./pages/Main/Main";
+import GameList from "./pages/GameList/GameList";
+import Game from "./pages/Game/Game";
 
 const style = css({
     width: "100%",

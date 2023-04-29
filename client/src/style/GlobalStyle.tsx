@@ -1,8 +1,18 @@
 import { css } from "@emotion/react";
 
 const reset = css`
+    @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
+
     * {
         box-sizing: border-box;
+    }
+
+    html {
+        font-family: "Noto Sans KR", sans-serif;
+
+        @media screen and (max-width: 932px) {
+            font-size: 90%;
+        }
     }
 
     html,

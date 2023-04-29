@@ -12,7 +12,7 @@ const GameList: React.FC = () => {
         fetch(`${process.env.REACT_APP_WS_HOST}/list`)
             .then((res) => res.json())
             .then((data) => setList(data))
-            .catch((err) => console.log(err));
+            .catch((err) => console.error(err));
     }, []);
 
     const handleEnterRoom = (e: React.MouseEvent<HTMLDivElement>, x: { roomID: string; member: string[] }) => {

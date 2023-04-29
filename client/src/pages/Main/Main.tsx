@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from "react";
 import { css } from "@emotion/react";
-import BasicInput from "../component/parts/BasicInput";
-import Button from "../component/parts/Button";
+import BasicInput from "../ui/parts/BasicInput";
+import Button from "../ui/parts/Button";
 import { useNavigate } from "react-router-dom";
-import { IUserConnectionInfo } from "../esset/Model/types";
+import { IUserConnectionInfo } from "../../Util/Model/types";
 
 const Main: React.FC = () => {
     const [value, setValue] = useState<IUserConnectionInfo>({
@@ -44,7 +44,7 @@ const wrap = css`
     align-items: center;
     gap: 30px;
 
-    @media screen and (min-width: 900px) {
+    @media screen and (min-width: 932px) {
         width: 70%;
     }
 `;
@@ -54,5 +54,5 @@ const btnCustom = css`
     font-size: 1.2rem;
     padding: 0.8rem 0.5rem;
     color: #424242;
-    font-weight: 800;
+    font-weight: 500;
 `;

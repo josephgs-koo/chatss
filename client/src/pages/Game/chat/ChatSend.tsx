@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState, useContext } from "react";
-import { SocketContext } from "../../Contexts/SocketContext";
+import { SocketContext } from "../Contexts/SocketContext";
 import { css } from "@emotion/react";
 import { useSetRecoilState } from "recoil";
-import { msgListState } from "../../Atom/msgAtom";
-import BasicInput from "../parts/BasicInput";
-import Button from "../parts/Button";
+import { msgListState } from "../../../store/msgAtom";
+import BasicInput from "../../ui/parts/BasicInput";
+import Button from "../../ui/parts/Button";
 import { TbSend } from "react-icons/tb";
 
 const ChatSend: React.FC = () => {
@@ -15,7 +15,7 @@ const ChatSend: React.FC = () => {
 
     const handleSubmit = () => {
         if (msg.length > 0) {
-            socket?.handleSendMsg(msg);
+            socket?.handleSendMsg("msg", msg);
             setmsgList((prev) => [{ me: true, msg: msg }, ...prev]);
             setMsg("");
         }
@@ -51,6 +51,7 @@ const wrap = css`
     justify-content: space-around;
     align-items: center;
     width: 100%;
+    height: 3.1rem;
     display: flex;
     gap: 10px;
 `;

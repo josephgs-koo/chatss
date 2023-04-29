@@ -1,6 +1,6 @@
 import { useSetRecoilState } from "recoil";
-import { GameStateFamily } from "../Atom/GameData";
-import { IGamePopUp } from "../esset/Model/types";
+import { GameStateFamily } from "../../store/GameData";
+import { IGamePopUp } from "../Model/types";
 
 const useGamePopUp = () => {
     const setState = useSetRecoilState(GameStateFamily("popUp"));

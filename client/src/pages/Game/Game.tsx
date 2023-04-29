@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 import { css } from "@emotion/react";
-import Chat from "../component/chat/Chat";
-import ChessPlaying from "../component/chess/ChessPlaying";
-import SocketContextProvider from "../Contexts/SocketContext";
+import Chat from "./chat/Chat";
+import ChessPlaying from "./chess/ChessPlaying";
+import SocketContextProvider from "./Contexts/SocketContext";
 
 const Game: React.FC = () => {
     return (
@@ -22,12 +22,13 @@ const section = css`
     width: 100%;
     height: 100%;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 1rem;
 
-    @media screen and (min-width: 900px) {
-        height: 100%;
+    @media screen and (min-width: 932px) {
+        height: 90%;
+        flex-direction: row;
     }
 `;
