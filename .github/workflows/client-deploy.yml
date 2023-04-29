@@ -23,7 +23,7 @@ jobs:
               run: npm run build
               env:
                   CI: ""
-                  REACT_APP_WS_URL: ${{ secrets.WS_URL }}
+                  REACT_APP_WS_HOST: ${{ secrets.WS_URL }}
 
             - name: Deploy
               env:
