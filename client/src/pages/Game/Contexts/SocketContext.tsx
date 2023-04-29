@@ -40,14 +40,13 @@ const SocketContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         return peer;
     };
 
-    const handleIce = (e: RTCPeerConnectionIceEvent) => {
-        if (e.candidate) {
-            socketRef.current?.emit("ice", { roomID, candidate: e.candidate });
+    const handleIce = (ev: RTCPeerConnectionIceEvent) => {
+        if (ev.candidate) {
+            socketRef.current?.emit("ice", { roomID, candidate: ev.candidate });
         }
     };
 
-    const connectionHandler = (e: Event) => {
-        console.log(peerRef.current);
+    const connectionHandler = (ev: Event) => {
         switch (peerRef.current?.iceConnectionState) {
             case "connected":
                 setIsConnect(true);
@@ -66,8 +65,8 @@ const SocketContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         }
     };
 
-    const msgHandler = (message: string) => {
-        const { type, data } = JSON.parse(message);
+    const handleChannelMsg = (ev: MessageEvent<string>) => {
+        const { type, data } = JSON.parse(ev.data);
         switch (type) {
             case "msg":
                 setmsgList((prev) => [{ me: false, msg: data }, ...prev]);
@@ -88,17 +87,14 @@ const SocketContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         }
     };
 
-    const handleChannelMsg = (e: MessageEvent<string>) => msgHandler(e.data);
-
     const handleJoined = async (host: boolean) => {
         setIsHost(host);
         peerRef.current = createPeer();
         if (host) {
             dataChannel.current = peerRef.current.createDataChannel("sendChannel");
             dataChannel.current.onmessage = handleChannelMsg;
-
-            const offer = await peerRef.current.createOffer();
-            peerRef.current.setLocalDescription(offer);
+            const offer = await peerRef.current?.createOffer();
+            peerRef.current?.setLocalDescription(offer);
 
             socketRef.current?.emit("offer", { roomID, offer });
         }
@@ -106,8 +102,8 @@ const SocketContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
     const handleCreateAnswer = async (offer: RTCSessionDescriptionInit) => {
         if (!peerRef.current) return;
-        peerRef.current.ondatachannel = (e) => {
-            dataChannel.current = e.channel;
+        peerRef.current.ondatachannel = (ev) => {
+            dataChannel.current = ev.channel;
             dataChannel.current.onmessage = handleChannelMsg;
         };
         peerRef.current.setRemoteDescription(offer);

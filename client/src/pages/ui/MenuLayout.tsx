@@ -48,6 +48,7 @@ const wrap = css`
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    transition: 0.5s ease-in-out;
 
     @media screen and (min-width: 932px) {
         width: 900px;
@@ -66,6 +67,7 @@ const btnWrap = css`
     display: flex;
     align-items: center;
     justify-content: space-around;
+    transition: 0.5s ease-in-out;
 `;
 
 const btnStyle = css`
@@ -88,4 +90,5 @@ const content = css`
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: 0.5s ease-in-out;
 `;
