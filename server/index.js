@@ -7,9 +7,13 @@ import { getGameList } from "./controller/gameListCtrl.js";
 import socketCtrl from "./controller/socketCtrl.js";
 
 const users = {};
+let corsOptions = {
+    origin: "*",
+    credentials: true,
+};
 
 const app = express();
-app.use(cors());
+app.use(cors(corsOptions));
 
 //? https 변경 필요?
 const server = http.createServer(app);

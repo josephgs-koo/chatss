@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from "react";
 import { Chessboard } from "react-chessboard";
 import { css } from "@emotion/react";
 import Board from "./Board";
-import { SocketContext } from "../Contexts/SocketContext";
+import { PeerContext } from "../../../Util/Context/PeerContext";
 import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { GameStateFamily, gameState } from "../../../store/GameData";
 import useGamePopUp from "../../../Util/hooks/useGamePopUp";
@@ -13,7 +13,7 @@ const ChessPlaying: React.FC = () => {
     const reset = useResetRecoilState(gameState);
     const host = useRecoilValue(GameStateFamily("host"));
     const setPopUp = useGamePopUp();
-    const socket = useContext(SocketContext);
+    const socket = useContext(PeerContext);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => () => resetChess(), []);

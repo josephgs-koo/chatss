@@ -3,7 +3,7 @@ import React from "react";
 import { css } from "@emotion/react";
 import Chat from "./chat/Chat";
 import ChessPlaying from "./chess/ChessPlaying";
-import SocketContextProvider from "./Contexts/SocketContext";
+import SocketContextProvider from "../../Util/Context/PeerContext";
 
 const Game: React.FC = () => {
     return (

@@ -2,20 +2,20 @@ import React, { createContext, useRef, useEffect, useState, useMemo } from "reac
 import { useNavigate, useParams } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
 import { useSetRecoilState, useRecoilState } from "recoil";
-import { msgListState } from "../../../store/msgAtom";
-import { GameStateFamily } from "../../../store/GameData";
+import { msgListState } from "../../store/msgAtom";
+import { GameStateFamily } from "../../store/GameData";
 
-import Loading from "../../ui/parts/Loading";
-import useGamePopUp from "../../../Util/hooks/useGamePopUp";
+import Loading from "../../pages/ui/parts/Loading";
+import useGamePopUp from "../hooks/useGamePopUp";
 
-interface ISocketContext {
+interface IPeerContext {
     socket: Socket | undefined;
     handleSendMsg: (type: "msg" | "game", data: any) => void;
 }
 
-export const SocketContext = createContext<ISocketContext | null>(null);
+export const PeerContext = createContext<IPeerContext | null>(null);
 
-const SocketContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const PeerContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const socketRef = useRef<Socket>();
     const peerRef = useRef<RTCPeerConnection>();
     const dataChannel = useRef<RTCDataChannel>();
@@ -158,7 +158,7 @@ const SocketContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const socket = useMemo(() => ({ socket: socketRef.current, handleSendMsg }), [socketRef]);
 
-    return <SocketContext.Provider value={socket}>{isConnect ? children : <Loading />}</SocketContext.Provider>;
+    return <PeerContext.Provider value={socket}>{isConnect ? children : <Loading />}</PeerContext.Provider>;
 };
 
-export default SocketContextProvider;
+export default PeerContextProvider;
